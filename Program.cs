@@ -13,7 +13,9 @@ var salesFiles = FindFiles(storesDirectory);
 var salesTotal = CalculateSalesTotal(salesFiles);
 
 // File.WriteAllText(Path.Combine(salesTotalDir, "totals.txt"), String.Empty);
-File.AppendAllText(Path.Combine(salesTotalDir, "totals.txt"), $"{salesTotal}{Environment.NewLine}");
+// File.AppendAllText(Path.Combine(salesTotalDir, "totals.txt"), $"{salesTotal}{Environment.NewLine}");
+GenerateSalesReport(salesFiles, salesTotalDir);
+
 
 // foreach (var file in salesFiles)
 // {
@@ -56,6 +58,30 @@ double CalculateSalesTotal(IEnumerable<string> salesFiles)
     }
 
     return salesTotal;
+}
+
+void GenerateSalesReport(IEnumerable<string> salesFiles, string outputDirectory)
+{
+    double salesTotal = CalculateSalesTotal(salesFiles);
+    string reportPath = Path.Combine(outputDirectory, "totals.txt");
+
+    File.WriteAllText(reportPath, $"Sales Summary{Environment.NewLine}");
+    File.AppendAllText(reportPath, $"------------------------------{Environment.NewLine}");
+    File.AppendAllText(reportPath, $"  Total Sales: {salesTotal:C}{Environment.NewLine}");
+    File.AppendAllText(reportPath, $"{Environment.NewLine}");
+    File.AppendAllText(reportPath, $"  Details:{Environment.NewLine}");
+
+    foreach (var file in salesFiles)
+    {
+        string salesJson = File.ReadAllText(file);
+        SalesData? data = JsonConvert.DeserializeObject<SalesData?>(salesJson);
+        string storeName = Path.GetFileName(Path.GetDirectoryName(file) ?? "") ?? "UnknownStore";
+
+        File.AppendAllText(
+            reportPath,
+            $"    Store: {storeName}, File: {Path.GetFileName(file)}, Total: {data?.Total ?? 0:C}{Environment.NewLine}"
+        );
+    }
 }
 
 record SalesData(double Total);

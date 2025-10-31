@@ -1,2 +1,14 @@
-2012.2000000000003
-2012.2000000000003
+Sales Summary
+------------------------------
+  Total Sales: $2,012.20
+
+  Details:
+    Store: stores, File: sales.json, Total: $88.88
+    Store: 201, File: sales.json, Total: $501.22
+    Store: 201, File: salestotals.json, Total: $0.00
+    Store: 202, File: sales.json, Total: $1,234.22
+    Store: 202, File: salestotals.json, Total: $0.00
+    Store: 203, File: sales.json, Total: $99.00
+    Store: 203, File: salestotals.json, Total: $0.00
+    Store: 204, File: sales.json, Total: $88.88
+    Store: 204, File: salestotals.json, Total: $0.00
